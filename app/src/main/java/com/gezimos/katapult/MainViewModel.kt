@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import com.gezimos.katapult.util.AudioWidgetHelper
 import com.gezimos.katapult.util.WeatherHelper
+import com.gezimos.katapult.util.SkyHelper
+import com.gezimos.katapult.astro.SkyDay
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewModelScope
@@ -99,6 +101,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var mediaInfo by mutableStateOf<AudioWidgetHelper.MediaInfo?>(null)
         private set
     var weather by mutableStateOf<WeatherHelper.Weather?>(null)
+        private set
+    var sky by mutableStateOf<SkyDay?>(null)
         private set
     private val weatherRefreshMs = 10 * 60 * 1000L
     private var weatherCheckedAt = -weatherRefreshMs
@@ -268,6 +272,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } else if (SystemClock.elapsedRealtime() - weatherCheckedAt >= weatherRefreshMs) {
             refreshWeather()
         }
+
+        refreshSky()
+    }
+
+    /** Cheap to call often: SkyHelper only recalculates when the day or a sky setting changes. */
+    fun refreshSky() {
+        sky = SkyHelper.today(prefs)
     }
 
     private var weatherObserverOn = false

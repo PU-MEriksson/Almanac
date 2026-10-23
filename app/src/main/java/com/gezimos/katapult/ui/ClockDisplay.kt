@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.gezimos.katapult.R
+import com.gezimos.katapult.astro.SkyDay
 import com.gezimos.katapult.util.WeatherHelper
 
 /**
@@ -55,6 +56,7 @@ fun ColumnScope.ClockDisplay(
     showBattery: Boolean,
     showAlarm: Boolean = true,
     weather: WeatherHelper.Weather? = null,
+    sky: SkyDay? = null,
     islandsActive: Boolean,
     onClockClick: (() -> Unit)? = null,
     onClockLongClick: (() -> Unit)? = null,
@@ -201,6 +203,14 @@ fun ColumnScope.ClockDisplay(
                 } else Modifier,
             ),
     )
+
+    if (sky != null) {
+        Spacer(Modifier.height(8.dp))
+        SkyInfoLines(
+            sky = sky,
+            modifier = Modifier.homeIsland(islandsActive, LocalSurface.current, LocalInk.current, hPad = 12.dp),
+        )
+    }
 }
 
 @Composable

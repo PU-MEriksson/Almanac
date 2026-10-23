@@ -517,6 +517,7 @@ fun SettingsScreen(viewModel: MainViewModel) {
                     onCheckedChange = {
                         showSky = it
                         prefs.showSky = it
+                        viewModel.refreshSky()
                         // The sky info needs a location, so ask for one straight away if it's missing.
                         if (it && (skyLatitude == null || skyLongitude == null)) showSkyLocationSheet = true
                     },
@@ -1449,6 +1450,7 @@ fun SettingsScreen(viewModel: MainViewModel) {
                 skyLongitude = lon
                 prefs.skyLatitude = lat
                 prefs.skyLongitude = lon
+                viewModel.refreshSky()
                 showSkyLocationSheet = false
             },
         )
@@ -1466,6 +1468,7 @@ fun SettingsScreen(viewModel: MainViewModel) {
             onSelect = {
                 skyCrossQuarter = it
                 prefs.skyCrossQuarter = it
+                viewModel.refreshSky()
             },
             onDismiss = { showSkyCrossQuarterSheet = false },
         )

@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gezimos.katapult.astro.SkyDay
 import com.gezimos.katapult.service.DirectBadgeHelper
 import com.gezimos.katapult.service.NotificationListener
 import com.gezimos.katapult.ui.AppIconCircle
@@ -63,6 +64,7 @@ import com.gezimos.katapult.util.BitmapHelper
 import com.gezimos.katapult.util.DeviceHelper
 import com.gezimos.katapult.util.IconUtility
 import com.gezimos.katapult.util.PrefsManager
+import com.gezimos.katapult.util.SkyHelper
 import com.gezimos.katapult.util.WeatherHelper
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -79,6 +81,7 @@ private data class SsClock(
     val battery: Int,
     val charging: Boolean,
     val weather: WeatherHelper.Weather?,
+    val sky: SkyDay?,
 )
 
 private data class SsRow(val count: Int, val label: String, val bitmap: Bitmap?)
@@ -228,6 +231,7 @@ fun ScreensaverView() {
                         showBattery = prefs.showBattery,
                         showAlarm = prefs.showAlarm,
                         weather = clock.weather,
+                        sky = clock.sky,
                         islandsActive = prefs.screensaverIslands,
                     )
                 }
@@ -354,7 +358,7 @@ private fun computeClock(context: Context, prefs: PrefsManager): SsClock {
             status == BatteryManager.BATTERY_STATUS_FULL
     }
     val weather = if (prefs.showWeather) WeatherHelper.read(context) else null
-    return SsClock(time, amPm, date, alarm, battery, charging, weather)
+    return SsClock(time, amPm, date, alarm, battery, charging, weather, SkyHelper.today(prefs))
 }
 
 private fun computeRows(

@@ -258,6 +258,7 @@ fun HomeScreen(
                     showBattery = viewModel.prefs.showBattery,
                     showAlarm = viewModel.prefs.showAlarm,
                     weather = viewModel.weather,
+                    sky = viewModel.sky,
                     islandsActive = viewModel.prefs.homeIslands,
                     topSpacing = if (viewModel.prefs.hideStatusBar) 32.dp else 8.dp,
                     onClockClick = {
