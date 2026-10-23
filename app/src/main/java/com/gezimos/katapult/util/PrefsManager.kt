@@ -163,61 +163,10 @@ class PrefsManager(context: Context) {
         )
     }
 
-    fun reconcileOrder(savedOrder: List<String>, currentApps: List<AppModel>): List<AppModel> {
-        val appMap = currentApps.associateBy { it.key }.toMutableMap()
-        val result = mutableListOf<AppModel>()
+    fun reconcileOrder(savedOrder: List<String>, currentApps: List<AppModel>): List<OrderItem> =
+        AppOrder.reconcile(savedOrder, currentApps)
 
-        for (pkg in savedOrder) {
-            val app = appMap.remove(pkg)
-            if (app != null) {
-                result.add(app)
-            }
-        }
-
-        val newApps = appMap.values.sortedBy { it.label.lowercase() }
-        for (app in newApps) {
-            val label = app.label.lowercase()
-            val anchors = longestNonDecreasingIndices(result)
-            val insertIndex = when {
-                anchors.isEmpty() -> 0
-                else -> {
-                    val idx = anchors.indexOfFirst { result[it].label.lowercase() > label }
-                    if (idx < 0) anchors.last() + 1 else anchors[idx]
-                }
-            }
-            result.add(insertIndex, app)
-        }
-
-        return result
-    }
-
-    private fun longestNonDecreasingIndices(list: List<AppModel>): List<Int> {
-        val n = list.size
-        if (n == 0) return emptyList()
-        val labels = List(n) { list[it].label.lowercase() }
-        val tails = IntArray(n)
-        val prev = IntArray(n) { -1 }
-        var length = 0
-        for (i in 0 until n) {
-            val l = labels[i]
-            var lo = 0
-            var hi = length
-            while (lo < hi) {
-                val mid = (lo + hi) ushr 1
-                if (labels[tails[mid]] > l) hi = mid else lo = mid + 1
-            }
-            if (lo > 0) prev[i] = tails[lo - 1]
-            tails[lo] = i
-            if (lo == length) length++
-        }
-        val out = ArrayDeque<Int>()
-        var k = tails[length - 1]
-        while (k != -1) {
-            out.addFirst(k)
-            k = prev[k]
-        }
-        return out.toList()
-    }
+    fun orderHasPageBreaks(): Boolean = loadAppOrder()?.any(AppOrder::isBreakKey) == true
 
     var notificationIndicators: Boolean
         get() = boolPref(KEY_NOTIFICATION_INDICATORS, true)

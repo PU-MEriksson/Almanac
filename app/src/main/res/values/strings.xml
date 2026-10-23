@@ -49,8 +49,11 @@
     <string name="notifications">Notifications</string>
     <string name="clear_notifications">Clear Notifications</string>
     <string name="uninstall">Uninstall</string>
-    <string name="reset_order_confirm">Reset app order to alphabetical?</string>
-    <string name="reorder_hint">Tap an app to swap it with the highlighted one</string>
+    <string name="reset_order_confirm">Reset app order to alphabetical? This also removes all page breaks.</string>
+    <string name="reorder_hint">Tap an app to swap it with the highlighted one, or an empty slot to move it there</string>
+    <string name="start_new_page">Start new page here</string>
+    <string name="remove_page_break">Remove page break</string>
+    <string name="page_title">Page title</string>
 
     <string name="all_apps">Apps</string>
 

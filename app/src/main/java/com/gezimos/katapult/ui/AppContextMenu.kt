@@ -12,6 +12,9 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.InsertPageBreak
+import androidx.compose.material.icons.rounded.Remove
+import androidx.compose.material.icons.rounded.Title
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.NotificationsOff
 import androidx.compose.material.icons.rounded.RestartAlt
@@ -98,17 +101,19 @@ fun AppContextMenu(
     showReorder: Boolean,
     showHide: Boolean,
     onDismiss: () -> Unit,
+    showPageOptions: Boolean = false,
 ) {
     val context = LocalContext.current
     var changeIconApp by remember { mutableStateOf<AppModel?>(null) }
     var shortcutsApp by remember { mutableStateOf<AppModel?>(null) }
+    var showPageTitleDialog by remember { mutableStateOf(false) }
 
     val callLogPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { granted -> if (granted) viewModel.clearMissedCalls() }
 
     if (!viewModel.showRenameDialog && !viewModel.reorderMode &&
-        changeIconApp == null && shortcutsApp == null
+        changeIconApp == null && shortcutsApp == null && !showPageTitleDialog
     ) {
         BottomSheet(onDismiss = onDismiss) {
             Text(
@@ -122,6 +127,21 @@ fun AppContextMenu(
             if (showReorder) {
                 BottomSheetOption(stringResource(R.string.reorder), icon = Icons.Rounded.SwapVert) {
                     viewModel.enterReorderMode(app)
+                }
+            }
+            if (showPageOptions) {
+                if (!viewModel.startsPage(app)) {
+                    BottomSheetOption(stringResource(R.string.start_new_page), icon = Icons.Rounded.InsertPageBreak) {
+                        viewModel.startPageBefore(app)
+                    }
+                }
+                if (viewModel.hasPageBreakBefore(app)) {
+                    BottomSheetOption(stringResource(R.string.remove_page_break), icon = Icons.Rounded.Remove) {
+                        viewModel.removePageBreakBefore(app)
+                    }
+                }
+                BottomSheetOption(stringResource(R.string.page_title), icon = Icons.Rounded.Title) {
+                    showPageTitleDialog = true
                 }
             }
             BottomSheetOption(stringResource(R.string.rename), icon = Icons.Rounded.Edit) {
@@ -237,6 +257,18 @@ fun AppContextMenu(
         )
     }
 
+    if (showPageTitleDialog) {
+        RenameDialog(
+            currentName = viewModel.pageTitleOf(app),
+            heading = stringResource(R.string.page_title),
+            onDismiss = {
+                showPageTitleDialog = false
+                onDismiss()
+            },
+            onConfirm = { title -> viewModel.setPageTitle(app, title) },
+        )
+    }
+
     changeIconApp?.let { target ->
         ChangeIconDialog(
             viewModel = viewModel,
@@ -256,10 +288,11 @@ fun AppContextMenu(
 }
 
 @Composable
-private fun RenameDialog(
+internal fun RenameDialog(
     currentName: String,
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit,
+    heading: String = stringResource(R.string.rename),
 ) {
     var textFieldValue by remember {
         mutableStateOf(androidx.compose.ui.text.input.TextFieldValue(
@@ -271,7 +304,7 @@ private fun RenameDialog(
 
     BottomSheet(onDismiss = onDismiss, imePadding = true) {
         Text(
-            text = stringResource(R.string.rename),
+            text = heading,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = LatoFamily,

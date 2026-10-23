@@ -13,6 +13,10 @@ import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.Remove
+import androidx.compose.material.icons.rounded.Title
+import androidx.compose.foundation.layout.fillMaxHeight
+import com.gezimos.katapult.util.AppPage
 import androidx.compose.material.icons.rounded.NotificationsOff
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Restore
@@ -96,6 +100,8 @@ import kotlin.math.abs
 fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<Array<String>>) {
     val context = LocalContext.current
     var showResetConfirm by remember { mutableStateOf(false) }
+    var titleMenuPage by remember { mutableStateOf<AppPage?>(null) }
+    var editTitlePage by remember { mutableStateOf<AppPage?>(null) }
 
     var showReorderHint by remember { mutableStateOf(false) }
     LaunchedEffect(viewModel.reorderMode) {
@@ -163,27 +169,39 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
             val reorder = viewModel.reorderMode
             val refresh = viewModel.shortcutRefresh
             val counts = if (showBadges) viewModel.notificationCounts else emptyMap()
-            val highlight = if (reorder) viewModel.reorderHighlightIndex else -1
+            val highlight = if (reorder) viewModel.reorderHighlightKey else null
+            val showTitles = viewModel.hasPageTitles
             val rowHeight = if (hideLabels) AllAppsRowHeightNoLabels else AllAppsRowHeight
-            val measuredRows = (maxHeight / rowHeight).toInt().coerceAtLeast(1)
-            val perPage = if (reorder) viewModel.appsPerPage else measuredRows * columns
+            val gridHeight = if (showTitles) maxHeight - PageTitleHeight else maxHeight
+            val measuredRows = (gridHeight / rowHeight).toInt().coerceAtLeast(1)
+            // Measured outside reorder mode only; the ViewModel's pages are split with this
+            // same value, so the pages look the same while organising and afterwards.
+            if (!reorder && viewModel.appsPerPage != measuredRows * columns) {
+                viewModel.updateAppsPerPage(measuredRows * columns)
+            }
+            val perPage = viewModel.appsPerPage
             val rows = perPage / columns
-            if (!reorder && viewModel.appsPerPage != perPage) {
-                viewModel.updateAppsPerPage(perPage)
-            }
-            val pageApps = remember(viewModel.currentPage, viewModel.orderedApps, perPage) {
-                val start = viewModel.currentPage * perPage
-                val end = minOf(start + perPage, viewModel.orderedApps.size)
-                if (start < viewModel.orderedApps.size) viewModel.orderedApps.subList(start, end) else emptyList()
-            }
-            val slots = remember(pageApps, perPage) {
-                val list = pageApps.toMutableList()
+            val page = viewModel.pages.getOrNull(viewModel.currentPage)
+            val slots = remember(page, perPage) {
+                val list = page?.apps.orEmpty().toMutableList()
                 while (list.size < perPage) list.add(AppModel("", "", ""))
                 list
             }
-            val pageStart = viewModel.currentPage * perPage
+            Column(modifier = Modifier.fillMaxSize()) {
+            if (showTitles) {
+                PageTitleStrip(
+                    title = page?.title.orEmpty(),
+                    onLongClick = {
+                        if (!reorder && viewModel.isManualOrder && !page?.apps.isNullOrEmpty()) {
+                            titleMenuPage = page
+                        }
+                    },
+                )
+            }
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 verticalArrangement = Arrangement.SpaceEvenly,
             ) {
             for (row in 0 until rows) {
@@ -194,24 +212,32 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     for (col in 0 until columns) {
+                        val idx = row * columns + col
+                        val app = slots.getOrElse(idx) { AppModel("", "", "") }
+                        val canMoveHere = app.packageName.isEmpty() && highlight != null
                         Box(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .then(
+                                    if (canMoveHere) Modifier.clickable {
+                                        showReorderHint = false
+                                        viewModel.reorderTapEmpty(viewModel.currentPage)
+                                    } else Modifier
+                                ),
                             contentAlignment = Alignment.Center,
                         ) {
-                            val idx = row * columns + col
-                            val absoluteIndex = pageStart + idx
-                            val app = slots.getOrElse(idx) { AppModel("", "", "") }
                             if (app.packageName.isNotEmpty()) {
                                 AppGridItem(
                                     app = app,
                                     notificationCount = if (app.shortcutId.isEmpty()) counts[app.packageName] ?: 0 else 0,
-                                    isHighlighted = absoluteIndex == highlight,
+                                    isHighlighted = app.key == highlight,
                                     hideLabel = hideLabels,
                                     refresh = refresh,
                                     onClick = {
                                         if (viewModel.reorderMode) {
                                             showReorderHint = false
-                                            viewModel.reorderTap(absoluteIndex)
+                                            viewModel.reorderTap(app.key)
                                         } else {
                                             viewModel.launchApp(context, app)
                                         }
@@ -232,6 +258,7 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
                         }
                     }
                 }
+            }
             }
             }
         }
@@ -268,9 +295,45 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
             viewModel = viewModel,
             app = menuApp,
             iconPicker = iconPicker,
-            showReorder = viewModel.prefs.appSortMode == PrefsManager.APP_SORT_MANUAL,
+            showReorder = viewModel.isManualOrder,
             showHide = true,
             onDismiss = { viewModel.contextMenuApp = null },
+            showPageOptions = viewModel.isManualOrder,
+        )
+    }
+
+    titleMenuPage?.let { menuPage ->
+        BottomSheet(onDismiss = { titleMenuPage = null }) {
+            Text(
+                text = menuPage.title.ifEmpty { stringResource(R.string.page_title) },
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = LatoFamily,
+                color = LocalInk.current,
+                modifier = Modifier.padding(bottom = 12.dp),
+            )
+            BottomSheetOption(stringResource(R.string.page_title), icon = Icons.Rounded.Title) {
+                titleMenuPage = null
+                editTitlePage = menuPage
+            }
+            if (menuPage.breakIndex >= 0) {
+                BottomSheetOption(stringResource(R.string.remove_page_break), icon = Icons.Rounded.Remove) {
+                    titleMenuPage = null
+                    viewModel.removePageBreak(menuPage)
+                }
+            }
+        }
+    }
+
+    editTitlePage?.let { editPage ->
+        RenameDialog(
+            currentName = editPage.title,
+            heading = stringResource(R.string.page_title),
+            onDismiss = { editTitlePage = null },
+            onConfirm = { title ->
+                editTitlePage = null
+                viewModel.setPageTitle(editPage, title)
+            },
         )
     }
 
@@ -391,6 +454,31 @@ private fun PageNavRow(viewModel: MainViewModel, wrap: Boolean, onResetOrder: ()
                 }
             }
         }
+    }
+}
+
+private val PageTitleHeight = 32.dp
+
+/** The page title at the top of the drawer. Long press to rename it or remove the break. */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun PageTitleStrip(title: String, onLongClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(PageTitleHeight)
+            .combinedClickable(onClick = {}, onLongClick = onLongClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = title,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = LatoFamily,
+            color = LocalInk.current,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 

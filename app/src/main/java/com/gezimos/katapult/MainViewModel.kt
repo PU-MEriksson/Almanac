@@ -44,6 +44,9 @@ import com.gezimos.katapult.service.DirectBadgeHelper
 import com.gezimos.katapult.service.NotificationListener
 import com.gezimos.katapult.ui.IconSize
 import com.gezimos.katapult.util.AppLoader
+import com.gezimos.katapult.util.AppOrder
+import com.gezimos.katapult.util.AppPage
+import com.gezimos.katapult.util.OrderItem
 import com.gezimos.katapult.util.BitmapHelper
 import com.gezimos.katapult.util.DeviceHelper
 import com.gezimos.katapult.util.IconUtility
@@ -73,13 +76,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var contextMenuApp by mutableStateOf<AppModel?>(null)
     var showRenameDialog by mutableStateOf(false)
     var reorderMode by mutableStateOf(false)
-    var reorderHighlightIndex by mutableIntStateOf(-1)
+    var reorderHighlightKey by mutableStateOf<String?>(null)
+        private set
     var iconOverrideTarget by mutableStateOf<String?>(null)
     var iconImportError by mutableStateOf(false)
     var sheetDismissSignal by mutableIntStateOf(0)
         private set
-    var orderedApps by mutableStateOf(listOf<AppModel>())
+    /** The app drawer order: apps plus page breaks. Only the manual sort mode has breaks. */
+    var orderItems by mutableStateOf(listOf<OrderItem>())
         private set
+    /** Just the apps from [orderItems], for code that doesn't care about pages. */
+    val orderedApps: List<AppModel> by derivedStateOf { AppOrder.appsOf(orderItems) }
     var currentPage by mutableIntStateOf(0)
         private set
     var clockTime by mutableStateOf("")
@@ -176,16 +183,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val gridColumns = 3
     var appsPerPage by mutableIntStateOf(12)
         private set
-    val totalPages: Int by derivedStateOf {
-        if (orderedApps.isEmpty()) 1 else ((orderedApps.size + appsPerPage - 1) / appsPerPage)
+    /** The drawer pages. Everything uses this one split, so reorder mode shows the same pages. */
+    val pages: List<AppPage> by derivedStateOf { AppOrder.split(orderItems, appsPerPage) }
+    val totalPages: Int by derivedStateOf { pages.size }
+    /** Any page has a title, so the drawer reserves a title strip on every page. */
+    val hasPageTitles: Boolean by derivedStateOf {
+        orderItems.any { it is OrderItem.PageBreak && it.title.isNotEmpty() }
     }
+    val isManualOrder get() = prefs.appSortMode == PrefsManager.APP_SORT_MANUAL
 
     fun updateAppsPerPage(perPage: Int) {
         val clamped = perPage.coerceAtLeast(gridColumns)
         if (clamped == appsPerPage) return
         appsPerPage = clamped
-        val maxPage = (totalPages - 1).coerceAtLeast(0)
-        if (currentPage > maxPage) currentPage = maxPage
+        clampPage()
     }
 
     private val ctx get() = getApplication<Application>()
@@ -353,23 +364,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (sortMode != PrefsManager.APP_SORT_MANUAL && UsageHelper.hasPermission(ctx)) {
             val stats = UsageHelper.stats(ctx)
             val ignored = UsageHelper.ignoredPackages(ctx)
-            orderedApps = renamed.sortedWith(
+            orderItems = renamed.sortedWith(
                 compareByDescending<AppModel> { app ->
                     val s = if (app.packageName in ignored) null else stats[app.packageName]
                     if (s == null) 0L
                     else if (sortMode == PrefsManager.APP_SORT_RECENT) s.lastTimeUsed
                     else s.totalTimeInForeground
                 }.thenBy { it.label.lowercase() }
-            )
+            ).map { OrderItem.App(it) }
             refreshHomeIfAppsChanged(previousKeys)
             return
         }
         val savedOrder = prefs.loadAppOrder()
-        orderedApps = if (savedOrder != null) {
+        orderItems = if (savedOrder != null) {
             prefs.reconcileOrder(savedOrder, renamed)
         } else {
-            renamed.sortedBy { it.label.lowercase() }
+            renamed.sortedBy { it.label.lowercase() }.map { OrderItem.App(it) }
         }
+        clampPage()
         refreshHomeIfAppsChanged(previousKeys)
     }
 
@@ -404,7 +416,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun goBack(): Boolean {
         if (reorderMode) {
             reorderMode = false
-            reorderHighlightIndex = -1
+            reorderHighlightKey = null
             loadApps()
             return true
         }
@@ -418,39 +430,75 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun enterReorderMode(app: AppModel) {
-        val index = orderedApps.indexOfFirst { it.key == app.key }
-        if (index >= 0) {
-            reorderHighlightIndex = index
+        if (orderedApps.any { it.key == app.key }) {
+            reorderHighlightKey = app.key
             reorderMode = true
         }
         contextMenuApp = null
     }
 
-    fun reorderTap(targetIndex: Int) {
-        if (reorderHighlightIndex < 0) {
-            reorderHighlightIndex = targetIndex
-        } else if (targetIndex == reorderHighlightIndex) {
-            reorderHighlightIndex = -1
+    /** First tap highlights an app, a second tap on another app swaps the two. */
+    fun reorderTap(key: String) {
+        val highlighted = reorderHighlightKey
+        if (highlighted != null && highlighted != key) {
+            orderItems = AppOrder.swap(orderItems, highlighted, key)
+            reorderHighlightKey = null
         } else {
-            val list = orderedApps.toMutableList()
-            val temp = list[reorderHighlightIndex]
-            list[reorderHighlightIndex] = list[targetIndex]
-            list[targetIndex] = temp
-            orderedApps = list
-            reorderHighlightIndex = -1
+            reorderHighlightKey = if (highlighted == null) key else null
         }
+    }
+
+    /** Tap on an empty slot: move the highlighted app to the end of that page. */
+    fun reorderTapEmpty(pageIndex: Int) {
+        val highlighted = reorderHighlightKey ?: return
+        val page = pages.getOrNull(pageIndex) ?: return
+        orderItems = AppOrder.moveToEndOf(orderItems, highlighted, page)
+        reorderHighlightKey = null
+        clampPage()
     }
 
     fun finishReorder() {
         reorderMode = false
-        reorderHighlightIndex = -1
-        prefs.saveAppOrder(orderedApps.map { it.key })
+        reorderHighlightKey = null
+        prefs.saveAppOrder(AppOrder.encode(orderItems))
     }
 
+    /** Back to A-Z. This also removes all page breaks. */
     fun resetOrder() {
-        orderedApps = orderedApps.sortedBy { it.label.lowercase() }
-        reorderHighlightIndex = -1
-        prefs.saveAppOrder(orderedApps.map { it.key })
+        orderItems = orderedApps.sortedBy { it.label.lowercase() }.map { OrderItem.App(it) }
+        reorderHighlightKey = null
+        clampPage()
+        prefs.saveAppOrder(AppOrder.encode(orderItems))
+    }
+
+    fun startsPage(app: AppModel) = AppOrder.startsPage(orderItems, app.key)
+    fun hasPageBreakBefore(app: AppModel) = AppOrder.hasBreakBefore(orderItems, app.key)
+    fun pageTitleOf(app: AppModel) = AppOrder.titleOf(orderItems, app.key)
+
+    fun startPageBefore(app: AppModel) = editPages(app) { AppOrder.insertBreakBefore(it, app.key) }
+    fun removePageBreakBefore(app: AppModel) = editPages(app) { AppOrder.removeBreakBefore(it, app.key) }
+    fun setPageTitle(app: AppModel, title: String) = editPages(app) { AppOrder.setTitle(it, app.key, title) }
+
+    // The same, from a long press on the title strip of a page.
+    fun setPageTitle(page: AppPage, title: String) {
+        page.apps.firstOrNull()?.let { setPageTitle(it, title) }
+    }
+    fun removePageBreak(page: AppPage) =
+        editPages(page.apps.firstOrNull()) { AppOrder.removeBreakAt(it, page.breakIndex) }
+
+    /** Applies a page-break change, saves it, and shows the page [app] ended up on. */
+    private fun editPages(app: AppModel?, change: (List<OrderItem>) -> List<OrderItem>) {
+        contextMenuApp = null
+        if (!isManualOrder) return
+        orderItems = change(orderItems)
+        prefs.saveAppOrder(AppOrder.encode(orderItems))
+        val page = pages.indexOfFirst { p -> p.apps.any { it.key == app?.key } }
+        if (page >= 0) currentPage = page else clampPage()
+    }
+
+    private fun clampPage() {
+        val maxPage = (totalPages - 1).coerceAtLeast(0)
+        if (currentPage > maxPage) currentPage = maxPage
     }
 
     fun hideApp(key: String) {
@@ -464,7 +512,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         contextMenuApp = null
         showRenameDialog = false
         if (name == currentLabel) return
-        if (name != prefs.getAppRename(key)) prefs.removeFromAppOrder(key)
+        // Without page breaks a renamed app is re-sorted by its new name. With breaks it
+        // keeps its place, so it doesn't jump off its themed page.
+        if (name != prefs.getAppRename(key) && !prefs.orderHasPageBreaks()) prefs.removeFromAppOrder(key)
         prefs.setAppRename(key, name)
         shortcutRefresh++
         loadApps()
