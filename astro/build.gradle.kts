@@ -18,3 +18,8 @@ kotlin {
 dependencies {
     testImplementation(libs.junit)
 }
+
+tasks.test {
+    // Show the expected-vs-actual tables the tests print.
+    testLogging.showStandardStreams = true
+}
