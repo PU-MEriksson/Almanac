@@ -264,6 +264,10 @@ class PrefsManager(context: Context) {
         get() = strPref(KEY_SKY_LONGITUDE, null)?.toDoubleOrNull()
         set(value) = prefs.edit().putString(KEY_SKY_LONGITUDE, value?.toString()).apply()
 
+    var skyCard: Boolean
+        get() = boolPref(KEY_SKY_CARD, true)
+        set(value) = prefs.edit().putBoolean(KEY_SKY_CARD, value).apply()
+
     var skyCrossQuarter: Int
         get() = intPref(KEY_SKY_CROSS_QUARTER, SKY_CROSS_QUARTER_TRADITIONAL)
         set(value) = prefs.edit().putInt(KEY_SKY_CROSS_QUARTER, value).apply()
@@ -607,6 +611,7 @@ class PrefsManager(context: Context) {
         private const val KEY_SKY_LATITUDE = "sky_latitude"
         private const val KEY_SKY_LONGITUDE = "sky_longitude"
         private const val KEY_SKY_CROSS_QUARTER = "sky_cross_quarter"
+        private const val KEY_SKY_CARD = "sky_card"
 
         const val SKY_CROSS_QUARTER_TRADITIONAL = 0
         const val SKY_CROSS_QUARTER_ASTRONOMICAL = 1

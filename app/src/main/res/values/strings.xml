@@ -121,6 +121,8 @@
     <string name="sky_location_failed">Couldn\'t get a location. Try outdoors, or type the coordinates.</string>
     <string name="sky_location_off">Location is turned off in the phone\'s settings</string>
     <string name="sky_location_denied">Location permission was not granted</string>
+    <string name="sky_card">Sky Info Card</string>
+    <string name="sky_card_desc">Show the sky info inside a framed card</string>
     <string name="sky_cross_quarter">Cross-Quarter Days</string>
     <string name="sky_cross_quarter_desc">Imbolc, Beltane, Lughnasadh, Samhain</string>
     <string name="sky_cross_quarter_traditional">Traditional</string>

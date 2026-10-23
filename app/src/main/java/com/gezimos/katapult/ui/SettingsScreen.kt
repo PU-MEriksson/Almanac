@@ -131,6 +131,7 @@ fun SettingsScreen(viewModel: MainViewModel) {
     var skyLatitude by remember { mutableStateOf(prefs.skyLatitude) }
     var skyLongitude by remember { mutableStateOf(prefs.skyLongitude) }
     var skyCrossQuarter by remember { mutableIntStateOf(prefs.skyCrossQuarter) }
+    var skyCard by remember { mutableStateOf(prefs.skyCard) }
     var showSkyLocationSheet by remember { mutableStateOf(false) }
     var showSkyCrossQuarterSheet by remember { mutableStateOf(false) }
     var roundedIcons by remember { mutableStateOf(prefs.roundedIcons) }
@@ -548,6 +549,17 @@ fun SettingsScreen(viewModel: MainViewModel) {
                         description = stringResource(R.string.sky_cross_quarter_desc),
                         value = crossQuarterLabel,
                         onClick = { showSkyCrossQuarterSheet = true },
+                    )
+                }
+                add {
+                    SettingsToggleRow(
+                        title = stringResource(R.string.sky_card),
+                        description = stringResource(R.string.sky_card_desc),
+                        checked = skyCard,
+                        onCheckedChange = {
+                            skyCard = it
+                            prefs.skyCard = it
+                        },
                     )
                 }
             }

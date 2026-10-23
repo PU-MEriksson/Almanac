@@ -232,6 +232,7 @@ fun ScreensaverView() {
                         showAlarm = prefs.showAlarm,
                         weather = clock.weather,
                         sky = clock.sky,
+                        skyCard = prefs.skyCard,
                         islandsActive = prefs.screensaverIslands,
                     )
                 }

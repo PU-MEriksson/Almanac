@@ -57,6 +57,7 @@ fun ColumnScope.ClockDisplay(
     showAlarm: Boolean = true,
     weather: WeatherHelper.Weather? = null,
     sky: SkyDay? = null,
+    skyCard: Boolean = true,
     islandsActive: Boolean,
     onClockClick: (() -> Unit)? = null,
     onClockLongClick: (() -> Unit)? = null,
@@ -205,10 +206,13 @@ fun ColumnScope.ClockDisplay(
     )
 
     if (sky != null) {
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(if (skyCard) 28.dp else 16.dp))
         SkyInfoLines(
             sky = sky,
-            modifier = Modifier.homeIsland(islandsActive, LocalSurface.current, LocalInk.current, hPad = 12.dp),
+            card = skyCard,
+            // The card has its own frame, so it only needs an island when there's no card.
+            modifier = if (skyCard) Modifier
+                else Modifier.homeIsland(islandsActive, LocalSurface.current, LocalInk.current, hPad = 12.dp),
         )
     }
 }
