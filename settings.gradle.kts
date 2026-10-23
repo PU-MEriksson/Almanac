@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Katapult"
 include(":app")
+include(":astro")
