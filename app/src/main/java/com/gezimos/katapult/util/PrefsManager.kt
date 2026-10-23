@@ -250,6 +250,24 @@ class PrefsManager(context: Context) {
         get() = boolPref(KEY_SHOW_WEATHER, false)
         set(value) = prefs.edit().putBoolean(KEY_SHOW_WEATHER, value).apply()
 
+    var showSky: Boolean
+        get() = boolPref(KEY_SHOW_SKY, false)
+        set(value) = prefs.edit().putBoolean(KEY_SHOW_SKY, value).apply()
+
+    /** Degrees north; null until set. Stored as text so "not set" and exact values survive. */
+    var skyLatitude: Double?
+        get() = strPref(KEY_SKY_LATITUDE, null)?.toDoubleOrNull()
+        set(value) = prefs.edit().putString(KEY_SKY_LATITUDE, value?.toString()).apply()
+
+    /** Degrees east; null until set. */
+    var skyLongitude: Double?
+        get() = strPref(KEY_SKY_LONGITUDE, null)?.toDoubleOrNull()
+        set(value) = prefs.edit().putString(KEY_SKY_LONGITUDE, value?.toString()).apply()
+
+    var skyCrossQuarter: Int
+        get() = intPref(KEY_SKY_CROSS_QUARTER, SKY_CROSS_QUARTER_TRADITIONAL)
+        set(value) = prefs.edit().putInt(KEY_SKY_CROSS_QUARTER, value).apply()
+
     var roundedIcons: Boolean
         get() = boolPref(KEY_ROUNDED_ICONS, false)
         set(value) = prefs.edit().putBoolean(KEY_ROUNDED_ICONS, value).apply()
@@ -585,6 +603,14 @@ class PrefsManager(context: Context) {
         private const val KEY_SHOW_ALARM = "show_alarm"
         private const val KEY_PENDING_ICON_TARGET = "pending_icon_target"
         private const val KEY_SHOW_WEATHER = "show_weather"
+        private const val KEY_SHOW_SKY = "show_sky"
+        private const val KEY_SKY_LATITUDE = "sky_latitude"
+        private const val KEY_SKY_LONGITUDE = "sky_longitude"
+        private const val KEY_SKY_CROSS_QUARTER = "sky_cross_quarter"
+
+        const val SKY_CROSS_QUARTER_TRADITIONAL = 0
+        const val SKY_CROSS_QUARTER_ASTRONOMICAL = 1
+        const val SKY_CROSS_QUARTER_HIDDEN = 2
         private const val KEY_ROUNDED_ICONS = "rounded_icons"
         private const val KEY_DARK_MODE = "dark_mode"
         private const val KEY_THEME_MODE = "theme_mode"

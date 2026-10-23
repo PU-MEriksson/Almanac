@@ -97,6 +97,7 @@ import com.gezimos.katapult.util.PrefsManager
 import com.gezimos.katapult.util.IconUtility
 import com.gezimos.katapult.util.ScreensaverShortcut
 import com.gezimos.katapult.util.ShortcutHelper
+import com.gezimos.katapult.util.Coordinates
 import com.gezimos.katapult.util.UpdateChecker
 import com.gezimos.katapult.util.UsageHelper
 import kotlinx.coroutines.launch
@@ -126,6 +127,12 @@ fun SettingsScreen(viewModel: MainViewModel) {
     var showBattery by remember { mutableStateOf(prefs.showBattery) }
     var showAlarm by remember { mutableStateOf(prefs.showAlarm) }
     var showWeather by remember { mutableStateOf(prefs.showWeather) }
+    var showSky by remember { mutableStateOf(prefs.showSky) }
+    var skyLatitude by remember { mutableStateOf(prefs.skyLatitude) }
+    var skyLongitude by remember { mutableStateOf(prefs.skyLongitude) }
+    var skyCrossQuarter by remember { mutableIntStateOf(prefs.skyCrossQuarter) }
+    var showSkyLocationSheet by remember { mutableStateOf(false) }
+    var showSkyCrossQuarterSheet by remember { mutableStateOf(false) }
     var roundedIcons by remember { mutableStateOf(prefs.roundedIcons) }
     var iconSize by remember { mutableIntStateOf(prefs.iconSize) }
     var themeMode by remember { mutableIntStateOf(prefs.themeMode) }
@@ -499,6 +506,47 @@ fun SettingsScreen(viewModel: MainViewModel) {
                             prefs.showWeather = it
                             viewModel.refreshWeather(force = true)
                         },
+                    )
+                }
+            }
+            add {
+                SettingsToggleRow(
+                    title = stringResource(R.string.show_sky),
+                    description = stringResource(R.string.show_sky_desc),
+                    checked = showSky,
+                    onCheckedChange = {
+                        showSky = it
+                        prefs.showSky = it
+                        // The sky info needs a location, so ask for one straight away if it's missing.
+                        if (it && (skyLatitude == null || skyLongitude == null)) showSkyLocationSheet = true
+                    },
+                )
+            }
+            if (showSky) {
+                add {
+                    val lat = skyLatitude
+                    val lon = skyLongitude
+                    SettingsActionRow(
+                        title = stringResource(R.string.sky_location),
+                        description = if (lat != null && lon != null) {
+                            stringResource(R.string.sky_location_value, Coordinates.format(lat), Coordinates.format(lon))
+                        } else {
+                            stringResource(R.string.sky_location_unset)
+                        },
+                        onClick = { showSkyLocationSheet = true },
+                    )
+                }
+                add {
+                    val crossQuarterLabel = when (skyCrossQuarter) {
+                        PrefsManager.SKY_CROSS_QUARTER_ASTRONOMICAL -> stringResource(R.string.sky_cross_quarter_astronomical)
+                        PrefsManager.SKY_CROSS_QUARTER_HIDDEN -> stringResource(R.string.sky_cross_quarter_hidden)
+                        else -> stringResource(R.string.sky_cross_quarter_traditional)
+                    }
+                    SettingsCycleRow(
+                        title = stringResource(R.string.sky_cross_quarter),
+                        description = stringResource(R.string.sky_cross_quarter_desc),
+                        value = crossQuarterLabel,
+                        onClick = { showSkyCrossQuarterSheet = true },
                     )
                 }
             }
@@ -1388,6 +1436,38 @@ fun SettingsScreen(viewModel: MainViewModel) {
                 viewModel.applyStatusBar(context)
             },
             onDismiss = { showThemeSheet = false },
+        )
+    }
+
+    if (showSkyLocationSheet) {
+        SkyLocationSheet(
+            latitude = skyLatitude,
+            longitude = skyLongitude,
+            onDismiss = { showSkyLocationSheet = false },
+            onSave = { lat, lon ->
+                skyLatitude = lat
+                skyLongitude = lon
+                prefs.skyLatitude = lat
+                prefs.skyLongitude = lon
+                showSkyLocationSheet = false
+            },
+        )
+    }
+
+    if (showSkyCrossQuarterSheet) {
+        ChoiceSheet(
+            title = stringResource(R.string.sky_cross_quarter),
+            options = listOf(
+                PrefsManager.SKY_CROSS_QUARTER_TRADITIONAL to stringResource(R.string.sky_cross_quarter_traditional_long),
+                PrefsManager.SKY_CROSS_QUARTER_ASTRONOMICAL to stringResource(R.string.sky_cross_quarter_astronomical_long),
+                PrefsManager.SKY_CROSS_QUARTER_HIDDEN to stringResource(R.string.sky_cross_quarter_hidden),
+            ),
+            selected = skyCrossQuarter,
+            onSelect = {
+                skyCrossQuarter = it
+                prefs.skyCrossQuarter = it
+            },
+            onDismiss = { showSkyCrossQuarterSheet = false },
         )
     }
 
