@@ -137,6 +137,42 @@ class AppOrderTest {
     }
 
     @Test
+    fun movePageGroupLaterAndEarlier() {
+        val items = listOf(br("Nature"), a("A"), a("B"), br("Tools"), a("C"))
+        val toolsFirst = AppOrder.moveGroup(items, 0, +1)
+        assertEquals(listOf("|Tools", "C", "|Nature", "A", "B"), labels(toolsFirst))
+        assertEquals(toolsFirst, AppOrder.moveGroup(items, 3, -1))
+    }
+
+    @Test
+    fun movingGroupTakesItsOverflowPagesAlong() {
+        val items = listOf(br("Nature"), a("A"), a("B"), a("C"), br("Tools"), a("D"))
+        val moved = AppOrder.moveGroup(items, 4, -1)
+        assertEquals(listOf("Tools: D", "Nature: A B", "Nature: C"), pages(moved, 2))
+    }
+
+    @Test
+    fun appsBeforeFirstBreakGetTheirOwnBreakWhenMoved() {
+        val items = listOf(a("A"), br("Tools"), a("B"))
+        assertEquals(listOf("|Tools", "B", "|", "A"), labels(AppOrder.moveGroup(items, -1, +1)))
+        assertEquals(listOf("|Tools", "B", "|", "A"), labels(AppOrder.moveGroup(items, 1, -1)))
+    }
+
+    @Test
+    fun cannotMovePastTheEnds() {
+        val items = listOf(a("A"), br("Tools"), a("B"))
+        assertEquals(items, AppOrder.moveGroup(items, -1, -1))
+        assertEquals(items, AppOrder.moveGroup(items, 1, +1))
+        assertEquals(emptyList<OrderItem>(), AppOrder.moveGroup(emptyList(), -1, +1))
+    }
+
+    @Test
+    fun movingSkipsBreaksWithoutApps() {
+        val items = listOf(br("X"), a("A"), br("Empty"), br("Y"), a("B"))
+        assertEquals(listOf("Y: B", "X: A"), pages(AppOrder.moveGroup(items, 0, +1), 4))
+    }
+
+    @Test
     fun moveToEmptySlotGoesToEndOfThatPage() {
         val items = listOf(br("Nature"), a("A"), br("Tools"), a("B"), a("C"))
         val nature = AppOrder.split(items, 4)[0]

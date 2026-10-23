@@ -54,6 +54,8 @@
     <string name="start_new_page">Start new page here</string>
     <string name="remove_page_break">Remove page break</string>
     <string name="page_title">Page title</string>
+    <string name="move_page_earlier">Move page earlier</string>
+    <string name="move_page_later">Move page later</string>
 
     <string name="all_apps">Apps</string>
 

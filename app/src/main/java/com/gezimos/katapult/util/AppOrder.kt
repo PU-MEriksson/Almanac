@@ -187,6 +187,33 @@ object AppOrder {
         }
     }
 
+    /**
+     * Moves a whole page group (its break, title and apps, including overflow pages) past
+     * the neighbouring group: [step] -1 = earlier, +1 = later. [breakIndex] is the group's
+     * [AppPage.breakIndex]. Apps before the first break get an untitled break of their own
+     * so they can move too. Breaks without apps stay where they are. Returns [items]
+     * unchanged when there's nothing to move past.
+     */
+    fun moveGroup(items: List<OrderItem>, breakIndex: Int, step: Int): List<OrderItem> {
+        var list = items
+        var start = breakIndex
+        if (items.firstOrNull() !is OrderItem.PageBreak) {
+            list = listOf(OrderItem.PageBreak()) + items
+            start = breakIndex + 1
+        }
+        val starts = list.indices.filter { list[it] is OrderItem.PageBreak }
+        val groups = starts.mapIndexed { i, s -> list.subList(s, starts.getOrElse(i + 1) { list.size }) }
+        val withApps = groups.indices.filter { g -> groups[g].any { it is OrderItem.App } }
+        val pos = withApps.indexOf(starts.indexOf(start))
+        val other = withApps.getOrNull(pos + step)
+        if (pos < 0 || other == null) return items
+        val me = withApps[pos]
+        return groups.toMutableList().apply {
+            this[me] = groups[other]
+            this[other] = groups[me]
+        }.flatten()
+    }
+
     /** Swaps two apps' places. Page breaks stay where they are. */
     fun swap(items: List<OrderItem>, keyA: String, keyB: String): List<OrderItem> {
         val a = indexOfApp(items, keyA)

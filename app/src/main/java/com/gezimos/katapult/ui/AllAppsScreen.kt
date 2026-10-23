@@ -13,6 +13,8 @@ import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.ArrowDownward
+import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.icons.rounded.Title
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -315,6 +317,18 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
             BottomSheetOption(stringResource(R.string.page_title), icon = Icons.Rounded.Title) {
                 titleMenuPage = null
                 editTitlePage = menuPage
+            }
+            if (viewModel.canMovePage(menuPage, -1)) {
+                BottomSheetOption(stringResource(R.string.move_page_earlier), icon = Icons.Rounded.ArrowUpward) {
+                    titleMenuPage = null
+                    viewModel.movePage(menuPage, -1)
+                }
+            }
+            if (viewModel.canMovePage(menuPage, +1)) {
+                BottomSheetOption(stringResource(R.string.move_page_later), icon = Icons.Rounded.ArrowDownward) {
+                    titleMenuPage = null
+                    viewModel.movePage(menuPage, +1)
+                }
             }
             if (menuPage.breakIndex >= 0) {
                 BottomSheetOption(stringResource(R.string.remove_page_break), icon = Icons.Rounded.Remove) {

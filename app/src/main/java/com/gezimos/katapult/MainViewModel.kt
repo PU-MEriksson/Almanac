@@ -486,6 +486,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun removePageBreak(page: AppPage) =
         editPages(page.apps.firstOrNull()) { AppOrder.removeBreakAt(it, page.breakIndex) }
 
+    /** Moves the page's whole group one place: [step] -1 = earlier, +1 = later. */
+    fun movePage(page: AppPage, step: Int) =
+        editPages(page.apps.firstOrNull()) { AppOrder.moveGroup(it, page.breakIndex, step) }
+    fun canMovePage(page: AppPage, step: Int) =
+        AppOrder.moveGroup(orderItems, page.breakIndex, step) != orderItems
+
     /** Applies a page-break change, saves it, and shows the page [app] ended up on. */
     private fun editPages(app: AppModel?, change: (List<OrderItem>) -> List<OrderItem>) {
         contextMenuApp = null
