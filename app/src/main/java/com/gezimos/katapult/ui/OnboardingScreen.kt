@@ -16,14 +16,17 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -116,13 +119,25 @@ fun OnboardingScreen(viewModel: MainViewModel) {
             .navigationBarsPadding()
             .padding(16.dp),
     ) {
-        // Logo
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        // Logo: Almanac's wheel icon and name
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Icon(
-                painter = painterResource(R.drawable.katapult_logo),
+                painter = painterResource(R.drawable.almanac_logo),
                 contentDescription = null,
                 tint = ink,
-                modifier = Modifier.width(160.dp).height(43.dp),
+                modifier = Modifier.size(43.dp),
+            )
+            Spacer(Modifier.width(12.dp))
+            Text(
+                text = stringResource(R.string.app_name),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = LatoFamily,
+                color = ink,
             )
         }
 

@@ -1,4 +1,4 @@
-I've forked Katapult, an Android launcher (Kotlin + Jetpack Compose) for the Mudita Kompakt e-ink phone. I don't know Kotlin, so please explain what you change and why in plain terms as we go. I'm new to Kotlin/Java/Android builds (my background is web development and a React Native Supernote plugin), so explain tooling steps too.
+I've forked Katapult and renamed my fork **Almanac**. It's an Android launcher (Kotlin + Jetpack Compose) for the Mudita Kompakt e-ink phone. I don't know Kotlin, so please explain what you change and why in plain terms as we go. I'm new to Kotlin/Java/Android builds (my background is web development and a React Native Supernote plugin), so explain tooling steps too.
 
 ## Goal
 
@@ -19,15 +19,17 @@ Samhain in 9 days
 
 ## Build and install
 
-- Build the debug APK: `./gradlew assembleDebug` → `app/build/outputs/apk/debug/katapult-v1.6-debug.apk`
-- The debug build installs as a separate app ("Katapult Debug", `com.gezimos.katapult.debug`) next to the original Katapult. I install it via Mudita Center (or `adb install` over USB) and pick it as the Home app.
+- Build the debug APK: `./gradlew assembleDebug` → `app/build/outputs/apk/debug/almanac-v1.6-debug.apk`
+- The debug build installs as "Almanac Debug" (`io.github.pumeriksson.almanac.debug`), separate from the original Katapult. I install it with `adb install -r` over USB and pick it as the Home app.
+- Release build: `./gradlew assembleRelease` with the `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD` environment variables set → `app/build/outputs/apk/release/almanac-v1.6-release.apk` ("Almanac", `io.github.pumeriksson.almanac`). The keystore lives outside the repo and must never be committed.
+- Naming: the visible name is Almanac (app name, UI text, README). The internal Kotlin package `com.gezimos.katapult`, class names, the theme, the settings file `katapult_prefs` and the config type `katapult_config` deliberately stay upstream's, so merges stay simple and old config exports still import. Where the UI or README refers to gezimos's app, it says "the original Katapult".
 - Tools already on my Mac: JDK 21 (Homebrew, `JAVA_HOME` set), Android SDK in `~/Library/Android/sdk`, Android Studio. The clean build was verified on 2026-10-23.
 - The built-in update checker (Settings → Check for Updates) only tells me when the original Katapult has a new release. It doesn't download or install anything, because the official APK would replace my fork's changes.
-- Keep "Katapult Action Service" (the accessibility service) turned off in Settings → Accessibility. While it's on, some apps refuses to run. Right now I don't need the features it provides.
+- Keep "Almanac Action Service" (the accessibility service) turned off in Settings → Accessibility. While it's on, some apps (e.g. BankID) refuse to run. Right now I don't need the features it provides.
 
 ## Syncing with the original repo
 
-`origin` is my fork (PU-MEriksson/Katapult), `upstream` is the original (gezimos/Katapult). When the update checker reports a new release:
+`origin` is my fork (PU-MEriksson/Almanac), `upstream` is the original (gezimos/Katapult). When the update checker reports a new release:
 
 ```
 git fetch upstream            # download their new commits (changes nothing locally)
@@ -40,6 +42,7 @@ git merge upstream/main       # bring their changes into my code
 
 - Merge, don't rebase (my commits are already pushed to GitHub).
 - If git reports conflicts, resolve them with me before building.
+- README.md is entirely my own (it only links to the original README). If a merge conflicts on it, keep mine: `git checkout --ours README.md && git add README.md`.
 - To keep conflicts rare, change upstream's files as little as possible and keep my own features in their own files.
 
 ## Design requirements

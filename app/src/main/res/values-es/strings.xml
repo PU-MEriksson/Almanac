@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Katapult</string>
+    <string name="app_name">Almanac</string>
 
     <string name="save">Guardar</string>
     <string name="save_uppercase">GUARDAR</string>
@@ -60,7 +60,7 @@
     <string name="icon_shape_circle">Círculo</string>
     <string name="change_icon">Cambiar icono</string>
     <string name="import_icon">Importar icono</string>
-    <string name="katapult_icons">Iconos Katapult</string>
+    <string name="katapult_icons">Iconos Almanac</string>
     <string name="material_icons">Iconos Material</string>
     <string name="choose_png">Importar icono (png, svg)</string>
     <string name="icon_import_failed">No se pudo importar el icono. Inténtalo de nuevo.</string>
@@ -71,7 +71,7 @@
     <string name="hide_status_bar_desc">Oculta la barra de estado del sistema</string>
     <string name="hide_status_bar_clock">Ocultar reloj de la barra de estado</string>
     <string name="hide_status_bar_clock_desc">Cubre el reloj duplicado en la barra de estado, requiere el servicio de accesibilidad</string>
-    <string name="hide_status_bar_clock_a11y">La cubierta del reloj la dibuja el servicio de accesibilidad de Katapult. Actívalo en los ajustes del sistema para usar esta función.</string>
+    <string name="hide_status_bar_clock_a11y">La cubierta del reloj la dibuja el servicio de accesibilidad de Almanac. Actívalo en los ajustes del sistema para usar esta función.</string>
     <string name="eink_refresh">Actualización E-Ink en inicio</string>
     <string name="eink_refresh_desc">Elimina el ghosting al pulsar el botón Inicio</string>
     <string name="eink_auto_mode">Modo E-Ink</string>
@@ -91,8 +91,8 @@
     <string name="show_alarm_desc">Mostrar la próxima alarma sobre el reloj</string>
     <string name="show_weather">Mostrar el tiempo</string>
     <string name="show_weather_desc">Mostrar el widget del tiempo sobre el reloj</string>
-    <string name="show_katapult_icon">Mostrar icono Katapult</string>
-    <string name="show_katapult_icon_desc">Mostrar Katapult en la lista de apps</string>
+    <string name="show_katapult_icon">Mostrar icono Almanac</string>
+    <string name="show_katapult_icon_desc">Mostrar Almanac en la lista de apps</string>
     <string name="hide_app_names">Ocultar nombres de apps</string>
     <string name="hide_app_names_desc">Ocultar etiquetas bajo los iconos</string>
     <string name="hide_arrow_buttons">Ocultar flechas</string>
@@ -115,31 +115,31 @@
     <string name="notification_history">Historial de notificaciones</string>
     <string name="notification_history_desc">Historial de notificaciones de Android</string>
     <string name="set_default_launcher">Establecer como launcher predeterminado</string>
-    <string name="set_default_launcher_desc">Elegir Katapult como pantalla de inicio</string>
+    <string name="set_default_launcher_desc">Elegir Almanac como pantalla de inicio</string>
     <string name="config_backup">Exportar/importar configuración</string>
     <string name="config_backup_desc">Guardar o restaurar los ajustes como archivo JSON</string>
     <string name="config_export">Exportar</string>
     <string name="config_import">Importar</string>
     <string name="config_clear">Borrar todos los datos</string>
-    <string name="config_clear_confirm">¿Borrar todos los ajustes y reiniciar Katapult?</string>
+    <string name="config_clear_confirm">¿Borrar todos los ajustes y reiniciar Almanac?</string>
     <string name="config_exported">Configuración exportada</string>
     <string name="config_export_failed">Error al exportar</string>
     <string name="config_import_failed">Error al importar, archivo de configuración no válido</string>
     <string name="app_shortcuts">Atajos de la app</string>
     <string name="remove_shortcut">Quitar atajo</string>
-    <string name="no_app_shortcuts">No hay atajos disponibles. Katapult debe ser el launcher predeterminado.</string>
+    <string name="no_app_shortcuts">No hay atajos disponibles. Almanac debe ser el launcher predeterminado.</string>
     <string name="no_app_shortcuts_app">Esta app no tiene atajos.</string>
     <string name="shortcut_pinned">%1$s añadido a las apps</string>
     <string name="shortcut_already_added">%1$s ya está en las apps</string>
 
     <string name="notification_access_title">Activar acceso a notificaciones</string>
-    <string name="notification_access_message">Katapult necesita acceso a notificaciones para mostrar insignias. ¿Conceder acceso en Ajustes?</string>
+    <string name="notification_access_message">Almanac necesita acceso a notificaciones para mostrar insignias. ¿Conceder acceso en Ajustes?</string>
     <string name="no_alarm">Sin alarma establecida</string>
 
     <string name="onboarding_icon">K</string>
-    <string name="welcome_title">Bienvenido a Katapult</string>
+    <string name="welcome_title">Bienvenido a Almanac</string>
     <string name="onboarding_notification_desc">Activa insignias de notificación en apps de terceros como WhatsApp, Signal, etc.</string>
-    <string name="onboarding_launcher_desc">Establecer Katapult como pantalla de inicio para volver aquí al pulsar el botón Inicio</string>
+    <string name="onboarding_launcher_desc">Establecer Almanac como pantalla de inicio para volver aquí al pulsar el botón Inicio</string>
     <string name="required_hint">* obligatorio</string>
     <string name="call_sms_badges">Badges de llamadas y SMS</string>
     <string name="call_sms_badges_desc">Lee el registro de llamadas y SMS directamente para Mudita Phone y SMS, que no funcionan con el listener de notificaciones</string>
@@ -168,8 +168,8 @@
     <string name="section_experimental">Notificaciones en pantalla de bloqueo (Experimental)</string>
     <string name="lockscreen_widget">Notificaciones en pantalla de bloqueo</string>
     <string name="lockscreen_widget_desc">Mostrar el número de notificaciones en la pantalla de bloqueo.</string>
-    <string name="a11y_service_label">Katapult Action Service</string>
-    <string name="a11y_shortcut_warning">En los ajustes de accesibilidad, activa solo el Katapult Action Service, no su atajo. El atajo añade un botón flotante de accesibilidad a la pantalla.</string>
+    <string name="a11y_service_label">Almanac Action Service</string>
+    <string name="a11y_shortcut_warning">En los ajustes de accesibilidad, activa solo el Almanac Action Service, no su atajo. El atajo añade un botón flotante de accesibilidad a la pantalla.</string>
     <string name="lockscreen_widget_a11y_desc">Se usa para el widget de notificaciones de la pantalla de bloqueo, cubrir el reloj de la barra de estado, bloquear el teléfono y el salvapantallas. Solo dibuja sobre la pantalla de bloqueo y la barra de estado; no lee nada de tus apps.</string>
     <string name="lockscreen_widget_apps">Apps de notificaciones en pantalla de bloqueo</string>
     <string name="lockscreen_widget_apps_desc">Elige qué apps aparecen en el widget de la pantalla de bloqueo</string>
@@ -183,12 +183,12 @@
     <string name="lockscreen_reenable_disable">Desactivar estas funciones</string>
     <string name="lockscreen_readme">Léeme</string>
     <string name="lockscreen_readme_desc">Sobre el permiso de accesibilidad y los controles del widget</string>
-    <string name="lockscreen_readme_privacy">Esta función dibuja sobre la pantalla de bloqueo mediante una superposición de accesibilidad. El permiso suena alarmante, pero Katapult solo lo usa para mostrar el widget y leer la propia pantalla de bloqueo, nunca tus apps, para que el widget pueda ocultarse cuando aparece la pantalla del PIN. No registra ni comparte nada; su código abierto es la prueba.</string>
+    <string name="lockscreen_readme_privacy">Esta función dibuja sobre la pantalla de bloqueo mediante una superposición de accesibilidad. El permiso suena alarmante, pero Almanac solo lo usa para mostrar el widget y leer la propia pantalla de bloqueo, nunca tus apps, para que el widget pueda ocultarse cuando aparece la pantalla del PIN. No registra ni comparte nada; su código abierto es la prueba.</string>
     <string name="lockscreen_readme_usage">Mantén pulsado el widget para ajustarlo: arrastra para moverlo y arrastra el tirador inferior para cambiar su tamaño. Toca una vez para guardar.</string>
     <string name="screensaver">Salvapantallas</string>
-    <string name="screensaver_setup_message">Katapult aún no está seleccionado como salvapantallas. Abre los ajustes de salvapantallas y elige Katapult; luego inícialo desde el menú de inicio.</string>
+    <string name="screensaver_setup_message">Almanac aún no está seleccionado como salvapantallas. Abre los ajustes de salvapantallas y elige Almanac; luego inícialo desde el menú de inicio.</string>
     <string name="screensaver_open_settings">Abrir ajustes de salvapantallas</string>
-    <string name="screensaver_settings_desc">Cambia el salvapantallas actual a Katapult para que esto funcione</string>
+    <string name="screensaver_settings_desc">Cambia el salvapantallas actual a Almanac para que esto funcione</string>
     <string name="screensaver_islands">Fondos de texto del salvapantallas</string>
     <string name="screensaver_wallpaper">Fondo del salvapantallas</string>
     <string name="screensaver_wallpaper_desc">Mostrar una imagen de fondo detrás del salvapantallas</string>
@@ -200,7 +200,7 @@
     <string name="screensaver_show_notifications_desc">Mostrar el número de notificaciones en el salvapantallas</string>
     <string name="screensaver_enable_desc">Mostrar reloj y notificaciones al pellizcar en el inicio</string>
     <string name="screensaver_system">Salvapantallas del sistema</string>
-    <string name="donate_desc">Apoya Katapult en Buy Me a Coffee</string>
+    <string name="donate_desc">Apoya Almanac en Buy Me a Coffee</string>
     <string name="github_label">github.com/gezimos</string>
     <string name="github_desc">Código fuente y otros proyectos</string>
     <string name="youtube_label">youtube.com/@gezimos</string>
@@ -236,7 +236,7 @@
     <string name="cat_home">Inicio</string>
     <string name="screensaver_on_power">Abrir con el botón de encendido</string>
     <string name="screensaver_on_power_desc">Mostrar el salvapantallas cuando la pantalla se apaga, requiere el servicio de accesibilidad</string>
-    <string name="screensaver_app_label">Salvapantallas Katapult</string>
+    <string name="screensaver_app_label">Salvapantallas Almanac</string>
     <string name="screensaver_app_icon">Icono del salvapantallas</string>
     <string name="screensaver_app_icon_desc">Añade un icono del salvapantallas al cajón de apps</string>
     <string name="screensaver_wallpaper_custom">Imagen personalizada</string>
@@ -244,7 +244,7 @@
     <string name="screensaver_image">Imagen del salvapantallas</string>
     <string name="clear_image">Quitar imagen</string>
     <string name="notifications_readme_desc">Sobre cómo controlar y depurar las notificaciones</string>
-    <string name="notifications_readme_control">Katapult solo muestra insignias de notificación, no gestiona las notificaciones. Usa Notificaciones de apps, una pantalla de ajustes de Android, para elegir qué apps pueden notificarte y desactivar las que quieras.</string>
+    <string name="notifications_readme_control">Almanac solo muestra insignias de notificación, no gestiona las notificaciones. Usa Notificaciones de apps, una pantalla de ajustes de Android, para elegir qué apps pueden notificarte y desactivar las que quieras.</string>
     <string name="notifications_readme_debug">Si oyes una notificación pero no la encuentras, abre el Registro de notificaciones para ver todas las notificaciones que el sistema Android ha enviado y localizar su origen.</string>
     <string name="screensaver_readme_desc">Sobre el salvapantallas y cómo abrirlo</string>
     <string name="screensaver_readme_about">Esto usa el modo salvapantallas para imitar una pantalla siempre activa (Always On Display). Muestra el reloj, la fecha, la batería, el número de notificaciones y el fondo, como la pantalla de inicio.</string>
@@ -261,13 +261,13 @@
     <string name="check_updates">Buscar actualizaciones</string>
     <string name="check_updates_desc">Descarga la última versión desde GitHub</string>
     <string name="permissions">Permisos</string>
-    <string name="permissions_desc">Consulta y gestiona a qué puede acceder Katapult</string>
+    <string name="permissions_desc">Consulta y gestiona a qué puede acceder Almanac</string>
     <string name="perm_notification_access">Acceso a notificaciones</string>
     <string name="perm_call_log">Registro de llamadas</string>
     <string name="perm_sms">SMS</string>
     <string name="perm_write_settings">Modificar ajustes del sistema</string>
     <string name="perm_install_apps">Instalar apps desconocidas</string>
-    <string name="perm_action_service">Katapult Action Service</string>
+    <string name="perm_action_service">Almanac Action Service</string>
     <string name="perm_notification_access_desc">Insignias de notificaciones y notificaciones en la pantalla de bloqueo</string>
     <string name="perm_action_service_desc">Widgets de pantalla de bloqueo, cubierta del reloj, salvapantallas y bloqueo</string>
     <string name="perm_call_log_desc">Llamadas perdidas en la insignia de Teléfono</string>
@@ -289,13 +289,13 @@
     <string name="update_download_install">Descargar</string>
     <string name="update_downloading">Descargando… %1$d%%</string>
     <string name="update_error">No se pudo buscar actualizaciones. Comprueba tu conexión e inténtalo de nuevo.</string>
-    <string name="update_ready_install">Descargada. Si Android lo pide, permite que Katapult instale aplicaciones, vuelve y toca Instalar.</string>
+    <string name="update_ready_install">Descargada. Si Android lo pide, permite que Almanac instale aplicaciones, vuelve y toca Instalar.</string>
     <string name="update_install">Instalar</string>
     <string name="update_download_failed">Error al descargar. Comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="retry">Reintentar</string>
     <string name="lockscreen_music_widget">Controles de música en la pantalla de bloqueo</string>
     <string name="lockscreen_music_widget_desc">Muestra los controles multimedia en la pantalla de bloqueo para reproductores distintos al de Mudita</string>
-    <string name="screensaver_readme_accessibility">Abrir con el botón de encendido requiere el Katapult Action Service activado.</string>
+    <string name="screensaver_readme_accessibility">Abrir con el botón de encendido requiere el Almanac Action Service activado.</string>
     <string name="icon_size">Tamaño de iconos</string>
     <string name="icon_size_value">%1$d x %2$d</string>
 </resources>

@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName.set("katapult-v1.6")
+    archivesName.set("almanac-v1.6")
 }
 
 android {
@@ -16,7 +16,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.gezimos.katapult"
+        // Almanac's own ID, so it installs beside the official Katapult instead of clashing
+        // with it. The namespace above stays upstream's, which keeps merges simple.
+        applicationId = "io.github.pumeriksson.almanac"
         minSdk = 30
         targetSdk = 36
         versionCode = 7

@@ -1,0 +1,27 @@
+<!--
+    The wheel of the year from ic_launcher_foreground, cropped to its own size for the
+    welcome screen: the 108 canvas is shifted by -22 so the wheel's centre lands on (32,32).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <group
+        android:translateX="-22"
+        android:translateY="-22">
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FF000000"
+            android:strokeWidth="6"
+            android:pathData="M54,30 A24,24 0 1,1 54,78 A24,24 0 1,1 54,30 Z" />
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FF000000"
+            android:strokeWidth="5"
+            android:pathData="M54,30 L54,78 M30,54 L78,54" />
+        <path
+            android:fillColor="#FF000000"
+            android:pathData="M78.97,37.03 A8,8 0 1,1 62.97,37.03 A8,8 0 1,1 78.97,37.03 Z" />
+    </group>
+</vector>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Katapult</string>
+    <string name="app_name">Almanac</string>
 
     <string name="save">Zapisz</string>
     <string name="save_uppercase">ZAPISZ</string>
@@ -60,7 +60,7 @@
     <string name="icon_shape_circle">Koło</string>
     <string name="change_icon">Zmień ikonę</string>
     <string name="import_icon">Importuj ikonę</string>
-    <string name="katapult_icons">Ikony Katapult</string>
+    <string name="katapult_icons">Ikony Almanac</string>
     <string name="material_icons">Ikony Material</string>
     <string name="choose_png">Importuj ikonę (png, svg)</string>
     <string name="icon_import_failed">Nie udało się zaimportować ikony. Spróbuj ponownie.</string>
@@ -71,7 +71,7 @@
     <string name="hide_status_bar_desc">Ukrywa systemowy pasek stanu</string>
     <string name="hide_status_bar_clock">Ukryj zegar paska stanu</string>
     <string name="hide_status_bar_clock_desc">Zakrywa zduplikowany zegar na pasku stanu, wymaga usługi ułatwień dostępu</string>
-    <string name="hide_status_bar_clock_a11y">Zasłonę zegara rysuje usługa ułatwień dostępu Katapult. Włącz ją w ustawieniach systemu, aby korzystać z tej funkcji.</string>
+    <string name="hide_status_bar_clock_a11y">Zasłonę zegara rysuje usługa ułatwień dostępu Almanac. Włącz ją w ustawieniach systemu, aby korzystać z tej funkcji.</string>
     <string name="eink_refresh">Odświeżanie E-Ink na ekranie głównym</string>
     <string name="eink_refresh_desc">Usuwa ghosting po naciśnięciu przycisku Home</string>
     <string name="eink_auto_mode">Tryb E-Ink</string>
@@ -91,8 +91,8 @@
     <string name="show_alarm_desc">Pokaż najbliższy alarm nad zegarem</string>
     <string name="show_weather">Pokaż pogodę</string>
     <string name="show_weather_desc">Pokaż widżet pogody nad zegarem</string>
-    <string name="show_katapult_icon">Pokaż ikonę Katapult</string>
-    <string name="show_katapult_icon_desc">Pokaż Katapult na liście aplikacji</string>
+    <string name="show_katapult_icon">Pokaż ikonę Almanac</string>
+    <string name="show_katapult_icon_desc">Pokaż Almanac na liście aplikacji</string>
     <string name="hide_app_names">Ukryj nazwy aplikacji</string>
     <string name="hide_app_names_desc">Ukryj etykiety pod ikonami aplikacji</string>
     <string name="hide_arrow_buttons">Ukryj strzałki</string>
@@ -115,31 +115,31 @@
     <string name="notification_history">Historia powiadomień</string>
     <string name="notification_history_desc">Historia powiadomień Androida</string>
     <string name="set_default_launcher">Ustaw jako domyślny launcher</string>
-    <string name="set_default_launcher_desc">Wybierz Katapult jako ekran główny</string>
+    <string name="set_default_launcher_desc">Wybierz Almanac jako ekran główny</string>
     <string name="config_backup">Eksport/import konfiguracji</string>
     <string name="config_backup_desc">Zapisz lub przywróć ustawienia jako plik JSON</string>
     <string name="config_export">Eksportuj</string>
     <string name="config_import">Importuj</string>
     <string name="config_clear">Wyczyść wszystkie dane</string>
-    <string name="config_clear_confirm">Usunąć wszystkie ustawienia i uruchomić Katapult ponownie?</string>
+    <string name="config_clear_confirm">Usunąć wszystkie ustawienia i uruchomić Almanac ponownie?</string>
     <string name="config_exported">Konfiguracja wyeksportowana</string>
     <string name="config_export_failed">Eksport nie powiódł się</string>
     <string name="config_import_failed">Import nie powiódł się, nieprawidłowy plik konfiguracji</string>
     <string name="app_shortcuts">Skróty aplikacji</string>
     <string name="remove_shortcut">Usuń skrót</string>
-    <string name="no_app_shortcuts">Brak dostępnych skrótów. Katapult musi być domyślnym launcherem.</string>
+    <string name="no_app_shortcuts">Brak dostępnych skrótów. Almanac musi być domyślnym launcherem.</string>
     <string name="no_app_shortcuts_app">Ta aplikacja nie ma skrótów.</string>
     <string name="shortcut_pinned">%1$s dodano do aplikacji</string>
     <string name="shortcut_already_added">%1$s jest już w aplikacjach</string>
 
     <string name="notification_access_title">Włącz dostęp do powiadomień</string>
-    <string name="notification_access_message">Katapult potrzebuje dostępu do powiadomień, aby wyświetlać znaczniki. Przyznać dostęp w Ustawieniach?</string>
+    <string name="notification_access_message">Almanac potrzebuje dostępu do powiadomień, aby wyświetlać znaczniki. Przyznać dostęp w Ustawieniach?</string>
     <string name="no_alarm">Brak ustawionego alarmu</string>
 
     <string name="onboarding_icon">K</string>
-    <string name="welcome_title">Witaj w Katapult</string>
+    <string name="welcome_title">Witaj w Almanac</string>
     <string name="onboarding_notification_desc">Włącza znaczniki powiadomień na aplikacjach firm trzecich, takich jak WhatsApp, Signal itp.</string>
-    <string name="onboarding_launcher_desc">Ustaw Katapult jako ekran główny, aby przycisk Home przenosił Cię tutaj</string>
+    <string name="onboarding_launcher_desc">Ustaw Almanac jako ekran główny, aby przycisk Home przenosił Cię tutaj</string>
     <string name="required_hint">* wymagane</string>
     <string name="call_sms_badges">Odznaki połączeń i SMS</string>
     <string name="call_sms_badges_desc">Odczytuje rejestr połączeń i SMS bezpośrednio dla Mudita Phone i SMS, które nie działają z listenerem powiadomień</string>
@@ -168,8 +168,8 @@
     <string name="section_experimental">Powiadomienia na ekranie blokady (Eksperymentalne)</string>
     <string name="lockscreen_widget">Powiadomienia na ekranie blokady</string>
     <string name="lockscreen_widget_desc">Pokazuj liczbę powiadomień na ekranie blokady.</string>
-    <string name="a11y_service_label">Katapult Action Service</string>
-    <string name="a11y_shortcut_warning">W ustawieniach ułatwień dostępu włącz tylko samą usługę Katapult Action Service, nie jej skrót. Skrót dodaje pływający przycisk ułatwień dostępu na ekranie.</string>
+    <string name="a11y_service_label">Almanac Action Service</string>
+    <string name="a11y_shortcut_warning">W ustawieniach ułatwień dostępu włącz tylko samą usługę Almanac Action Service, nie jej skrót. Skrót dodaje pływający przycisk ułatwień dostępu na ekranie.</string>
     <string name="lockscreen_widget_a11y_desc">Używana do widżetu powiadomień na ekranie blokady, zakrywania zegara paska stanu, blokowania telefonu i wygaszacza. Rysuje tylko na ekranie blokady i pasku stanu; nie odczytuje niczego z Twoich aplikacji.</string>
     <string name="lockscreen_widget_apps">Aplikacje powiadomień na ekranie blokady</string>
     <string name="lockscreen_widget_apps_desc">Wybierz, które aplikacje pojawiają się w widżecie ekranu blokady</string>
@@ -183,12 +183,12 @@
     <string name="lockscreen_reenable_disable">Wyłącz te funkcje</string>
     <string name="lockscreen_readme">Przeczytaj</string>
     <string name="lockscreen_readme_desc">O uprawnieniu ułatwień dostępu i sterowaniu widżetem</string>
-    <string name="lockscreen_readme_privacy">Ta funkcja rysuje na ekranie blokady za pomocą nakładki ułatwień dostępu. Uprawnienie brzmi groźnie, ale Katapult używa go tylko do wyświetlania widżetu i odczytywania samego ekranu blokady, nigdy Twoich aplikacji, aby widżet mógł się ukryć, gdy pojawi się ekran PIN. Nic nie jest nagrywane ani udostępniane; dowodem jest otwarty kod źródłowy.</string>
+    <string name="lockscreen_readme_privacy">Ta funkcja rysuje na ekranie blokady za pomocą nakładki ułatwień dostępu. Uprawnienie brzmi groźnie, ale Almanac używa go tylko do wyświetlania widżetu i odczytywania samego ekranu blokady, nigdy Twoich aplikacji, aby widżet mógł się ukryć, gdy pojawi się ekran PIN. Nic nie jest nagrywane ani udostępniane; dowodem jest otwarty kod źródłowy.</string>
     <string name="lockscreen_readme_usage">Przytrzymaj widżet, aby go dostosować: przeciągnij, aby przesunąć, przeciągnij uchwyt pod nim, aby zmienić rozmiar. Dotknij raz, aby zapisać.</string>
     <string name="screensaver">Wygaszacz ekranu</string>
-    <string name="screensaver_setup_message">Katapult nie jest jeszcze wybrany jako wygaszacz ekranu. Otwórz ustawienia wygaszacza i wybierz Katapult, a następnie uruchom go z menu ekranu głównego.</string>
+    <string name="screensaver_setup_message">Almanac nie jest jeszcze wybrany jako wygaszacz ekranu. Otwórz ustawienia wygaszacza i wybierz Almanac, a następnie uruchom go z menu ekranu głównego.</string>
     <string name="screensaver_open_settings">Otwórz ustawienia wygaszacza</string>
-    <string name="screensaver_settings_desc">Zmień bieżący wygaszacz ekranu na Katapult, aby to działało</string>
+    <string name="screensaver_settings_desc">Zmień bieżący wygaszacz ekranu na Almanac, aby to działało</string>
     <string name="screensaver_islands">Tła tekstu wygaszacza</string>
     <string name="screensaver_wallpaper">Tło wygaszacza</string>
     <string name="screensaver_wallpaper_desc">Pokaż obraz tła za wygaszaczem</string>
@@ -200,7 +200,7 @@
     <string name="screensaver_show_notifications_desc">Pokaż liczbę powiadomień na wygaszaczu ekranu</string>
     <string name="screensaver_enable_desc">Pokaż zegar i powiadomienia gestem szczypania na ekranie głównym</string>
     <string name="screensaver_system">Systemowy wygaszacz ekranu</string>
-    <string name="donate_desc">Wesprzyj Katapult na Buy Me a Coffee</string>
+    <string name="donate_desc">Wesprzyj Almanac na Buy Me a Coffee</string>
     <string name="github_label">github.com/gezimos</string>
     <string name="github_desc">Kod źródłowy i inne projekty</string>
     <string name="youtube_label">youtube.com/@gezimos</string>
@@ -236,7 +236,7 @@
     <string name="cat_home">Główny</string>
     <string name="screensaver_on_power">Otwórz przyciskiem zasilania</string>
     <string name="screensaver_on_power_desc">Pokaż wygaszacz, gdy ekran się wyłącza, wymaga usługi ułatwień dostępu</string>
-    <string name="screensaver_app_label">Wygaszacz Katapult</string>
+    <string name="screensaver_app_label">Wygaszacz Almanac</string>
     <string name="screensaver_app_icon">Ikona wygaszacza</string>
     <string name="screensaver_app_icon_desc">Dodaje ikonę wygaszacza do listy aplikacji</string>
     <string name="screensaver_wallpaper_custom">Własny obraz</string>
@@ -244,7 +244,7 @@
     <string name="screensaver_image">Obraz wygaszacza</string>
     <string name="clear_image">Usuń obraz</string>
     <string name="notifications_readme_desc">O sterowaniu i debugowaniu powiadomień</string>
-    <string name="notifications_readme_control">Katapult pokazuje tylko plakietki powiadomień, nie zarządza samymi powiadomieniami. Użyj Powiadomień aplikacji, ekranu ustawień Androida, aby wybrać, które aplikacje mogą Cię powiadamiać, i wyłączyć dowolne.</string>
+    <string name="notifications_readme_control">Almanac pokazuje tylko plakietki powiadomień, nie zarządza samymi powiadomieniami. Użyj Powiadomień aplikacji, ekranu ustawień Androida, aby wybrać, które aplikacje mogą Cię powiadamiać, i wyłączyć dowolne.</string>
     <string name="notifications_readme_debug">Jeśli słyszysz powiadomienie, ale nie możesz go znaleźć, otwórz Dziennik powiadomień, aby zobaczyć każde powiadomienie wysłane przez system Android i ustalić jego źródło.</string>
     <string name="screensaver_readme_desc">O wygaszaczu ekranu i jak go otworzyć</string>
     <string name="screensaver_readme_about">To wykorzystuje tryb wygaszacza ekranu, aby naśladować Always On Display. Pokazuje zegar, datę, baterię, liczbę powiadomień i tapetę, podobnie jak ekran główny.</string>
@@ -261,13 +261,13 @@
     <string name="check_updates">Sprawdź aktualizacje</string>
     <string name="check_updates_desc">Pobierz najnowszą wersję z GitHuba</string>
     <string name="permissions">Uprawnienia</string>
-    <string name="permissions_desc">Zobacz i zarządzaj tym, do czego Katapult ma dostęp</string>
+    <string name="permissions_desc">Zobacz i zarządzaj tym, do czego Almanac ma dostęp</string>
     <string name="perm_notification_access">Dostęp do powiadomień</string>
     <string name="perm_call_log">Rejestr połączeń</string>
     <string name="perm_sms">SMS</string>
     <string name="perm_write_settings">Zmiana ustawień systemu</string>
     <string name="perm_install_apps">Instalowanie nieznanych aplikacji</string>
-    <string name="perm_action_service">Katapult Action Service</string>
+    <string name="perm_action_service">Almanac Action Service</string>
     <string name="perm_notification_access_desc">Odznaki powiadomień i powiadomienia na ekranie blokady</string>
     <string name="perm_action_service_desc">Widżety ekranu blokady, zakrycie zegara, wygaszacz i blokowanie</string>
     <string name="perm_call_log_desc">Nieodebrane połączenia w odznace Telefonu</string>
@@ -295,7 +295,7 @@
     <string name="retry">Ponów</string>
     <string name="lockscreen_music_widget">Sterowanie muzyką na ekranie blokady</string>
     <string name="lockscreen_music_widget_desc">Pokaż sterowanie multimediami na ekranie blokady dla odtwarzaczy innych niż Mudita</string>
-    <string name="screensaver_readme_accessibility">Otwieranie przyciskiem zasilania wymaga włączonej usługi Katapult Action Service.</string>
+    <string name="screensaver_readme_accessibility">Otwieranie przyciskiem zasilania wymaga włączonej usługi Almanac Action Service.</string>
     <string name="icon_size">Rozmiar ikon</string>
     <string name="icon_size_value">%1$d x %2$d</string>
 </resources>
