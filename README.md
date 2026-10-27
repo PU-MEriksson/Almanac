@@ -31,7 +31,7 @@ Everything is calculated on the phone, offline, once a day. The calculations liv
 
 ### App pages with titles
 
-Apps can be arranged into pages of your own. This works when the app sort order is set to the default, _Alphabetical_. It doesn't apply when sorting by recent or most used apps.
+Apps can be arranged into pages of your own. Choose _Custom_ under Settings → Order Apps. The other choices (_Alphabetical_, _Most Recent_, _Most Used_) sort the apps automatically, and your custom layout is kept for when you switch back.
 
 - **Reorder** now also lets you move an app to an empty slot, not just swap two apps.
 - **Start new page here** (long-press an app) starts a new page with that app.

@@ -299,8 +299,14 @@ class PrefsManager(context: Context) {
         )
         set(value) = prefs.edit().putInt(KEY_HOME_LONG_PRESS, value).apply()
 
+    // Before Custom existed, 0 meant "A-Z, but reorderable", i.e. the saved order. Keeping 0
+    // for Custom carries existing setups over unchanged. Never chosen: Custom if an order
+    // was saved, so a layout made without opening this setting isn't lost.
     var appSortMode: Int
-        get() = intPref(KEY_APP_SORT_MODE, APP_SORT_MANUAL)
+        get() = intPref(
+            KEY_APP_SORT_MODE,
+            if (loadAppOrder() != null) APP_SORT_CUSTOM else APP_SORT_ALPHABETICAL,
+        )
         set(value) = prefs.edit().putInt(KEY_APP_SORT_MODE, value).apply()
 
     var hideAllAppsButton: Boolean
@@ -629,9 +635,11 @@ class PrefsManager(context: Context) {
         const val DOUBLE_TAP_LOCK = 2
 
         private const val KEY_APP_SORT_MODE = "app_sort_mode"
-        const val APP_SORT_MANUAL = 0
+        const val APP_SORT_CUSTOM = 0
         const val APP_SORT_RECENT = 1
         const val APP_SORT_USED = 2
+        // Fork-only value, kept clear of upstream's numbering in case it adds modes.
+        const val APP_SORT_ALPHABETICAL = 10
         private const val KEY_ONBOARDING_COMPLETE = "onboarding_complete"
     }
 }

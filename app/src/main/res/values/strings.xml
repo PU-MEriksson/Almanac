@@ -218,8 +218,9 @@
     <string name="perm_write_settings_desc">Brightness control</string>
     <string name="perm_install_apps_desc">In-app updates</string>
     <string name="app_sort_order">Order Apps</string>
-    <string name="app_sort_order_desc">A-Z, Most recent, Most used</string>
+    <string name="app_sort_order_desc">A-Z, Custom, Most recent, Most used</string>
     <string name="app_sort_alphabetical">Alphabetical</string>
+    <string name="app_sort_custom">Custom</string>
     <string name="app_sort_recent">Most Recent</string>
     <string name="app_sort_used">Most Used</string>
     <string name="perm_usage_access">Usage Access</string>

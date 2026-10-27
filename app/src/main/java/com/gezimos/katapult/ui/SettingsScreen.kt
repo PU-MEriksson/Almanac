@@ -602,6 +602,7 @@ fun SettingsScreen(viewModel: MainViewModel) {
                 val sortLabel = when (appSortMode) {
                     PrefsManager.APP_SORT_RECENT -> stringResource(R.string.app_sort_recent)
                     PrefsManager.APP_SORT_USED -> stringResource(R.string.app_sort_used)
+                    PrefsManager.APP_SORT_CUSTOM -> stringResource(R.string.app_sort_custom)
                     else -> stringResource(R.string.app_sort_alphabetical)
                 }
                 SettingsCycleRow(
@@ -1613,13 +1614,15 @@ fun SettingsScreen(viewModel: MainViewModel) {
         ChoiceSheet(
             title = stringResource(R.string.app_sort_order),
             options = listOf(
-                PrefsManager.APP_SORT_MANUAL to stringResource(R.string.app_sort_alphabetical),
+                PrefsManager.APP_SORT_ALPHABETICAL to stringResource(R.string.app_sort_alphabetical),
+                PrefsManager.APP_SORT_CUSTOM to stringResource(R.string.app_sort_custom),
                 PrefsManager.APP_SORT_RECENT to stringResource(R.string.app_sort_recent),
                 PrefsManager.APP_SORT_USED to stringResource(R.string.app_sort_used),
             ),
             selected = appSortMode,
             onSelect = { mode ->
-                if (mode == PrefsManager.APP_SORT_MANUAL || UsageHelper.hasPermission(context)) {
+                val needsUsage = mode == PrefsManager.APP_SORT_RECENT || mode == PrefsManager.APP_SORT_USED
+                if (!needsUsage || UsageHelper.hasPermission(context)) {
                     pendingSortMode = null
                     appSortMode = mode
                     prefs.appSortMode = mode

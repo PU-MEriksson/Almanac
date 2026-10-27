@@ -190,7 +190,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val hasPageTitles: Boolean by derivedStateOf {
         orderItems.any { it is OrderItem.PageBreak && it.title.isNotEmpty() }
     }
-    val isManualOrder get() = prefs.appSortMode == PrefsManager.APP_SORT_MANUAL
+    val isCustomOrder get() = prefs.appSortMode == PrefsManager.APP_SORT_CUSTOM
 
     fun updateAppsPerPage(perPage: Int) {
         val clamped = perPage.coerceAtLeast(gridColumns)
@@ -361,7 +361,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (customName != null) app.copy(label = customName) else app
         }
         val sortMode = prefs.appSortMode
-        if (sortMode != PrefsManager.APP_SORT_MANUAL && UsageHelper.hasPermission(ctx)) {
+        val byUsage = sortMode == PrefsManager.APP_SORT_RECENT || sortMode == PrefsManager.APP_SORT_USED
+        if (byUsage && UsageHelper.hasPermission(ctx)) {
             val stats = UsageHelper.stats(ctx)
             val ignored = UsageHelper.ignoredPackages(ctx)
             orderItems = renamed.sortedWith(
@@ -375,7 +376,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             refreshHomeIfAppsChanged(previousKeys)
             return
         }
-        val savedOrder = prefs.loadAppOrder()
+        // Only Custom uses the saved order. It stays stored in the other modes, so
+        // switching back to Custom brings the pages and titles back.
+        val savedOrder = if (sortMode == PrefsManager.APP_SORT_CUSTOM) prefs.loadAppOrder() else null
         orderItems = if (savedOrder != null) {
             prefs.reconcileOrder(savedOrder, renamed)
         } else {
@@ -495,7 +498,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /** Applies a page-break change, saves it, and shows the page [app] ended up on. */
     private fun editPages(app: AppModel?, change: (List<OrderItem>) -> List<OrderItem>) {
         contextMenuApp = null
-        if (!isManualOrder) return
+        if (!isCustomOrder) return
         orderItems = change(orderItems)
         prefs.saveAppOrder(AppOrder.encode(orderItems))
         val page = pages.indexOfFirst { p -> p.apps.any { it.key == app?.key } }

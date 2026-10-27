@@ -194,7 +194,7 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
                 PageTitleStrip(
                     title = page?.title.orEmpty(),
                     onLongClick = {
-                        if (!reorder && viewModel.isManualOrder && !page?.apps.isNullOrEmpty()) {
+                        if (!reorder && viewModel.isCustomOrder && !page?.apps.isNullOrEmpty()) {
                             titleMenuPage = page
                         }
                     },
@@ -297,10 +297,10 @@ fun AllAppsScreen(viewModel: MainViewModel, iconPicker: ActivityResultLauncher<A
             viewModel = viewModel,
             app = menuApp,
             iconPicker = iconPicker,
-            showReorder = viewModel.isManualOrder,
+            showReorder = viewModel.isCustomOrder,
             showHide = true,
             onDismiss = { viewModel.contextMenuApp = null },
-            showPageOptions = viewModel.isManualOrder,
+            showPageOptions = viewModel.isCustomOrder,
         )
     }
 
