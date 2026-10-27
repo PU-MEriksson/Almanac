@@ -201,7 +201,8 @@
     <string name="shortcut_pinned">%1$s added to All Apps</string>
     <string name="shortcut_already_added">%1$s is already in All Apps</string>
     <string name="check_updates">Check for Updates</string>
-    <string name="check_updates_desc">Download the latest version from GitHub</string>
+    <string name="check_updates_desc">See if the original Katapult has a new release</string>
+    <string name="update_fork_notice">This is a fork, so the update isn\'t installed from here. Merge the new release into the fork and rebuild.</string>
     <string name="permissions">Permissions</string>
     <string name="permissions_desc">See and manage what Katapult can access</string>
     <string name="perm_notification_access">Notification Access</string>

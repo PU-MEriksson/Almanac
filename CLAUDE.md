@@ -22,7 +22,25 @@ Samhain in 9 days
 - Build the debug APK: `./gradlew assembleDebug` → `app/build/outputs/apk/debug/katapult-v1.6-debug.apk`
 - The debug build installs as a separate app ("Katapult Debug", `com.gezimos.katapult.debug`) next to the original Katapult. I install it via Mudita Center (or `adb install` over USB) and pick it as the Home app.
 - Tools already on my Mac: JDK 21 (Homebrew, `JAVA_HOME` set), Android SDK in `~/Library/Android/sdk`, Android Studio. The clean build was verified on 2026-10-23.
-- Later: the built-in update checker points at the upstream repo (gezimos/Katapult). It should point at my fork or be turned off.
+- The built-in update checker (Settings → Check for Updates) only tells me when the original Katapult has a new release. It doesn't download or install anything, because the official APK would replace my fork's changes.
+- Keep "Katapult Action Service" (the accessibility service) turned off in Settings → Accessibility. While it's on, some apps refuses to run. Right now I don't need the features it provides.
+
+## Syncing with the original repo
+
+`origin` is my fork (PU-MEriksson/Katapult), `upstream` is the original (gezimos/Katapult). When the update checker reports a new release:
+
+```
+git fetch upstream            # download their new commits (changes nothing locally)
+git log main..upstream/main   # see what's new
+git checkout main
+git checkout -b sync-upstream
+git merge upstream/main       # bring their changes into my code
+./gradlew assembleDebug       # check it still builds, then test on the phone
+```
+
+- Merge, don't rebase (my commits are already pushed to GitHub).
+- If git reports conflicts, resolve them with me before building.
+- To keep conflicts rare, change upstream's files as little as possible and keep my own features in their own files.
 
 ## Design requirements
 

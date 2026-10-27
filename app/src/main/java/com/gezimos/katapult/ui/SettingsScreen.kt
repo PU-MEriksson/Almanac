@@ -2079,27 +2079,13 @@ private fun UpdateDialog(
                             .padding(bottom = 16.dp),
                     )
                 }
-                if (viewModel.updateFailed) {
-                    Text(
-                        text = stringResource(R.string.update_download_failed),
-                        fontSize = 14.sp,
-                        fontFamily = LatoFamily,
-                        color = LocalInk.current,
-                        modifier = Modifier.padding(bottom = 8.dp),
-                    )
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Text(
-                        text = stringResource(R.string.update_download_install),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = LatoFamily,
-                        color = LocalInk.current,
-                        modifier = Modifier
-                            .clickable { viewModel.downloadUpdate(s.info) }
-                            .padding(12.dp),
-                    )
-                }
+                // Fork: notice only. Installing upstream's APK would replace this build's changes.
+                Text(
+                    text = stringResource(R.string.update_fork_notice),
+                    fontSize = 14.sp,
+                    fontFamily = LatoFamily,
+                    color = LocalInk.current,
+                )
             }
         }
     }
