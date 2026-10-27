@@ -4,6 +4,17 @@ This is a fork of [Katapult](https://github.com/gezimos/Katapult) by gezimos, a 
 
 The original README follows further down.
 
+<div align="center">
+    <table>
+        <tr>
+            <td><img src='docs/img/screenshots/fork_home_sky.png' height='300' alt='Home screen with sky info'></td>
+            <td><img src='docs/img/screenshots/fork_pages2.png' height='300' alt='App page with a title'></td>
+            <td><img src='docs/img/screenshots/fork_pages1.png' height='300' alt='App page with a title'></td>
+            <td><img src='docs/img/screenshots/fork_sky_settings.png' height='300' alt='Sky info settings'></td>
+        </tr>
+    </table>
+</div>
+
 ## What's different in this fork
 
 ### Sky info under the clock
