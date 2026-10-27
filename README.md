@@ -2,8 +2,6 @@
 
 Almanac is a launcher for the Mudita Kompakt e-ink phone, based on [Katapult](https://github.com/gezimos/Katapult) by gezimos, a simple grid launcher. It's my personal version and keeps everything from the original. It adds two things: sky info under the clock, and more control over how apps are arranged into pages.
 
-The code for Almanac's additions was written with [Claude Code](https://claude.com/claude-code), an AI coding assistant. I don't write Kotlin myself. See [How Almanac was made](#how-almanac-was-made) for who did what.
-
 For everything Almanac has from Katapult (the app grid, music widget, icon tinting, notification badges, screensaver and more), see the [original Katapult README](https://github.com/gezimos/Katapult#readme).
 
 <div align="center">
